@@ -1,0 +1,216 @@
+---
+alwaysApply: true
+---
+## 📁 프로젝트 구조
+
+```
+blog/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── layout.tsx          # 루트 레이아웃
+│   │   ├── page.tsx            # 홈 페이지
+│   │   ├── globals.css         # 전역 스타일 및 테마
+│   │   └── favicon.ico
+│   └── lib/
+│       └── utils.ts            # 유틸리티 함수 (cn 헬퍼)
+├── public/                     # 정적 파일
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── ...
+├── components.json             # shadcn/ui 설정
+├── next.config.ts              # Next.js 설정
+├── tsconfig.json               # TypeScript 설정
+├── eslint.config.mjs           # ESLint 설정
+├── postcss.config.mjs          # PostCSS 설정
+└── package.json
+```
+
+---
+
+## ⚙️ 설정 상세
+
+### TypeScript 설정
+- **타겟**: ES2017
+- **모듈 해석**: bundler (최신 방식)
+- **엄격 모드**: 활성화
+- **경로 별칭**: `@/*` → `./src/*`
+- **JSX**: react-jsx (자동 런타임)
+
+### Tailwind CSS 설정
+- **버전**: 4.x (최신)
+- **테마**: OKLCH 색상 공간 사용
+- **다크모드**: CSS 변수를 통한 구현
+- **커스텀 변형**: `dark` 변형 지원
+
+### shadcn/ui 설정
+- **스타일**: new-york
+- **RSC**: 활성화 (React Server Components)
+- **아이콘**: lucide-react
+- **경로 별칭**:
+  - `@/components` → 컴포넌트
+  - `@/lib` → 유틸리티
+  - `@/hooks` → 커스텀 훅
+
+### ESLint 설정
+- **기본 설정**: next/core-web-vitals, next/typescript
+- **무시 대상**: .next, out, build 디렉토리
+
+---
+
+## 🎨 디자인 시스템
+
+### 색상 시스템
+- **색상 공간**: OKLCH (더 넓은 색상 범위)
+- **테마**: 라이트/다크 모드 완전 지원
+- **컬러 토큰**:
+  - Primary, Secondary, Accent
+  - Muted, Destructive
+  - Card, Popover
+  - Border, Input, Ring
+  - Sidebar 관련 색상
+  - Chart 색상 팔레트 (5가지)
+
+### 타이포그래피
+- **메인 폰트**: Geist Sans (variable)
+- **모노 폰트**: Geist Mono (variable)
+- **폰트 최적화**: Next.js 자동 최적화
+
+### 레이아웃
+- **반응형**: 모바일 우선 접근
+- **컨테이너**: max-width 제한 및 중앙 정렬
+- **다크모드**: CSS 클래스 기반 전환
+
+---
+
+## 🔧 주요 기능
+
+### 현재 구현 상태
+1. ✅ Next.js App Router 구조
+2. ✅ TypeScript 완전 지원
+3. ✅ Tailwind CSS 4 통합
+4. ✅ 다크모드 테마 시스템
+5. ✅ shadcn/ui 설정 완료
+6. ✅ 폰트 최적화 (Geist)
+7. ✅ ESLint 설정
+
+### 개발 준비 상태
+- ✅ 개발 서버: `npm run dev`
+- ✅ 빌드: `npm run build`
+- ✅ 프로덕션 서버: `npm start`
+- ✅ 린팅: `npm run lint`
+
+---
+
+## 📦 의존성 분석
+
+### 프로덕션 의존성
+- **next**: 16.1.1 - 메인 프레임워크
+- **react**: 19.2.3 - UI 라이브러리 (최신)
+- **react-dom**: 19.2.3 - React DOM 렌더러
+- **tailwind-merge**: 클래스명 병합 유틸리티
+- **clsx**: 조건부 클래스명 관리
+- **class-variance-authority**: 컴포넌트 변형 API
+- **lucide-react**: 아이콘 세트
+
+### 개발 의존성
+- **typescript**: 5.x - 타입 체킹
+- **tailwindcss**: 4.x - CSS 프레임워크
+- **@tailwindcss/postcss**: PostCSS 플러그인
+- **eslint**: 9.x - 코드 품질 검사
+- **eslint-config-next**: Next.js ESLint 설정
+- **@types/react**: React 타입 정의
+- **tw-animate-css**: Tailwind 애니메이션 확장
+
+---
+
+## 🚀 개발 워크플로우
+
+### 로컬 개발
+```bash
+npm run dev
+# http://localhost:3000 에서 확인
+```
+
+### 빌드 및 배포
+```bash
+npm run build  # 프로덕션 빌드
+npm start      # 프로덕션 서버 실행
+```
+
+### 코드 품질
+```bash
+npm run lint   # ESLint 검사
+```
+
+---
+
+## 📝 현재 상태 및 다음 단계
+
+### 완료된 작업
+- [x] Next.js 프로젝트 초기 설정
+- [x] TypeScript 설정
+- [x] Tailwind CSS 4 통합
+- [x] shadcn/ui 설정
+- [x] 다크모드 테마 구현
+- [x] 기본 레이아웃 구성
+
+### 개발 가능한 기능
+- [ ] 블로그 포스트 목록 페이지
+- [ ] 개별 포스트 상세 페이지
+- [ ] 카테고리/태그 시스템
+- [ ] 검색 기능
+- [ ] RSS 피드
+- [ ] 댓글 시스템
+- [ ] 관리자 대시보드
+- [ ] SEO 최적화
+- [ ] 이미지 최적화
+- [ ] 성능 모니터링
+
+---
+
+## 🔍 기술적 특징
+
+### 최신 기술 사용
+1. **Next.js 16**: 최신 App Router 활용
+2. **React 19**: 최신 React 기능
+3. **Tailwind CSS 4**: 최신 버전의 유틸리티 우선 CSS
+4. **OKLCH 색상**: 더 넓은 색상 표현 범위
+
+### 성능 최적화
+- 폰트 자동 최적화 (next/font)
+- 이미지 최적화 (next/image)
+- 코드 스플리팅 (자동)
+- 서버 컴포넌트 지원
+
+### 개발자 경험
+- TypeScript로 타입 안정성
+- ESLint로 코드 품질 관리
+- 경로 별칭으로 깔끔한 import
+- shadcn/ui로 재사용 가능한 컴포넌트
+
+---
+
+## 📚 참고 자료
+
+### 공식 문서
+- [Next.js 문서](https://nextjs.org/docs)
+- [React 문서](https://react.dev)
+- [Tailwind CSS 문서](https://tailwindcss.com/docs)
+- [shadcn/ui 문서](https://ui.shadcn.com)
+
+### 주요 라이브러리
+- [Geist 폰트](https://vercel.com/font)
+- [Lucide 아이콘](https://lucide.dev)
+- [class-variance-authority](https://cva.style)
+
+---
+
+## 🎯 프로젝트 목적
+
+이 프로젝트는 Next.js와 최신 웹 기술을 활용한 모던한 블로그 플랫폼입니다. 
+서버 컴포넌트, 타입 안정성, 성능 최적화를 중시하는 구조로 설계되었으며,
+확장 가능하고 유지보수하기 쉬운 코드베이스를 목표로 합니다.
+
+---
+
+*마지막 업데이트: 프로젝트 초기 설정 완료*
