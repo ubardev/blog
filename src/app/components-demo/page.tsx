@@ -2,6 +2,7 @@
 
 import { BlogCard } from "@/components/blog-card"
 import { EmailCta } from "@/components/email-cta"
+import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
@@ -704,6 +705,155 @@ export default function ComponentsDemoPage() {
                       <li>• 입력 필드: h-10, text-base</li>
                       <li>• 버튼: h-10</li>
                       <li>• 추천: 데스크톱 화면</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Header 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            Header 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            네비게이션 헤더 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="header-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="header-demo">데모</TabsTrigger>
+            <TabsTrigger value="header-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="header-demo" className="space-y-12 mt-6">
+            {/* 기본 헤더 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 헤더
+              </h2>
+              <div className="w-full rounded-lg overflow-hidden border border-border">
+                <div className="relative">
+                  <Header />
+                  <div className="h-96 bg-muted/30 flex items-center justify-center">
+                    <p className="text-muted-foreground">페이지 콘텐츠 영역</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 반응형 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                반응형 동작
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Smartphone className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">모바일 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">네비게이션 메뉴 숨김</span>
+                  </div>
+                  <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
+                    <div className="relative">
+                      <Header />
+                      <div className="h-64 bg-muted/30 flex items-center justify-center">
+                        <p className="text-muted-foreground text-sm">모바일 뷰</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Monitor className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">데스크톱 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">전체 메뉴 표시</span>
+                  </div>
+                  <div className="w-full rounded-lg overflow-hidden border border-border">
+                    <div className="relative">
+                      <Header />
+                      <div className="h-64 bg-muted/30 flex items-center justify-center">
+                        <p className="text-muted-foreground">데스크톱 뷰</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="header-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { Header } from "@/components/header"
+
+// 기본 사용법
+<Header />
+
+// 커스텀 클래스 추가
+<Header className="shadow-lg" />
+
+// 레이아웃에 포함 예시
+export default function Layout({ children }) {
+  return (
+    <div>
+      <Header />
+      <main>{children}</main>
+    </div>
+  )
+}`}</code>
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  레이아웃 구조
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">레이아웃 구성</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>제목</strong>: 왼쪽 정렬 - "코드패토리" 로고/제목</li>
+                      <li>• <strong>네비게이션</strong>: 가운데 정렬 - "홈", "블로그" 링크 (데스크톱에서만 표시)</li>
+                      <li>• <strong>로그인 버튼</strong>: 오른쪽 정렬 - 로그인 페이지 링크</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">반응형 동작</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>모바일</strong>: 네비게이션 메뉴 숨김 (md 미만)</li>
+                      <li>• <strong>태블릿/데스크톱</strong>: 전체 메뉴 표시 (md 이상)</li>
+                      <li>• <strong>Sticky 헤더</strong>: 스크롤 시 상단에 고정</li>
+                      <li>• <strong>백드롭 블러</strong>: 반투명 배경과 블러 효과</li>
                     </ul>
                   </div>
                 </div>
