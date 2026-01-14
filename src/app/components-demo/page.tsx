@@ -1,6 +1,7 @@
 "use client"
 
 import { BlogCard } from "@/components/blog-card"
+import { EmailCta } from "@/components/email-cta"
 import { Hero } from "@/components/hero"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
@@ -485,6 +486,231 @@ export default function ComponentsDemoPage() {
           </div>
         </TabsContent>
       </Tabs>
+      </div>
+
+      {/* EmailCta 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            EmailCta 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            이메일 구독 CTA 컴포넌트의 다양한 사이즈와 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="cta-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="cta-demo">데모</TabsTrigger>
+            <TabsTrigger value="cta-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="cta-demo" className="space-y-12 mt-6">
+            {/* Small Size */}
+            <section>
+              <div className="container mx-auto px-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Smartphone className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Small (sm) - 모바일</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">추천: 모바일 화면</span>
+                </div>
+              </div>
+              <div className="w-full bg-muted py-6">
+                <div className="container mx-auto px-4">
+                  <EmailCta
+                    size="sm"
+                    onSubmit={async (email) => {
+                      console.log("구독 이메일:", email)
+                      await new Promise((resolve) => setTimeout(resolve, 1000))
+                      alert(`구독 완료: ${email}`)
+                    }}
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Medium Size */}
+            <section>
+              <div className="container mx-auto px-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Tablet className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Medium (md) - 태블릿</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">기본값, 태블릿 화면</span>
+                </div>
+              </div>
+              <div className="w-full bg-muted py-6">
+                <div className="container mx-auto px-4">
+                  <EmailCta
+                    size="md"
+                    onSubmit={async (email) => {
+                      console.log("구독 이메일:", email)
+                      await new Promise((resolve) => setTimeout(resolve, 1000))
+                      alert(`구독 완료: ${email}`)
+                    }}
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Large Size */}
+            <section>
+              <div className="container mx-auto px-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Monitor className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Large (lg) - 데스크톱</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">추천: 데스크톱 화면</span>
+                </div>
+              </div>
+              <div className="w-full bg-muted py-6">
+                <div className="container mx-auto px-4">
+                  <EmailCta
+                    size="lg"
+                    onSubmit={async (email) => {
+                      console.log("구독 이메일:", email)
+                      await new Promise((resolve) => setTimeout(resolve, 1000))
+                      alert(`구독 완료: ${email}`)
+                    }}
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* 커스텀 예시 */}
+            <section>
+              <div className="container mx-auto px-4 mb-4">
+                <h2 className="text-2xl font-semibold text-foreground">
+                  커스텀 예시
+                </h2>
+              </div>
+              <div className="w-full bg-muted py-6">
+                <div className="container mx-auto px-4">
+                  <EmailCta
+                    title="최신 기술 소식을 받아보세요"
+                    placeholder="your@email.com"
+                    buttonText="신청하기"
+                    onSubmit={async (email) => {
+                      console.log("구독 이메일:", email)
+                      await new Promise((resolve) => setTimeout(resolve, 1000))
+                      alert(`구독 완료: ${email}`)
+                    }}
+                  />
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="cta-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">title?: string</code> - 제목 텍스트 (기본값: "코드팩토리에 구독하세요")</li>
+                      <li><code className="bg-background px-2 py-1 rounded">placeholder?: string</code> - 이메일 입력 필드 placeholder (기본값: "이메일을 입력하세요")</li>
+                      <li><code className="bg-background px-2 py-1 rounded">buttonText?: string</code> - 버튼 텍스트 (기본값: "구독하기")</li>
+                      <li><code className="bg-background px-2 py-1 rounded">size?: "sm" | "md" | "lg"</code> - 컴포넌트 사이즈 (기본값: "md")</li>
+                      <li><code className="bg-background px-2 py-1 rounded">onSubmit?: (email: string) =&gt; void | Promise{'<'}{'void'}{'>'}</code> - 구독 제출 핸들러</li>
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { EmailCta } from "@/components/email-cta"
+
+// 기본 사용법
+<EmailCta
+  onSubmit={async (email) => {
+    console.log("구독 이메일:", email)
+    // API 호출 등 처리
+  }}
+/>
+
+// 커스텀 텍스트
+<EmailCta
+  title="최신 기술 소식을 받아보세요"
+  placeholder="your@email.com"
+  buttonText="신청하기"
+  onSubmit={async (email) => {
+    // 구독 처리
+  }}
+/>
+
+// 사이즈 옵션
+<EmailCta
+  size="sm"  // 작은 사이즈 (모바일)
+  onSubmit={async (email) => {
+    // 구독 처리
+  }}
+/>
+
+<EmailCta
+  size="md"  // 기본 사이즈
+  onSubmit={async (email) => {
+    // 구독 처리
+  }}
+/>
+
+<EmailCta
+  size="lg"  // 큰 사이즈 (데스크톱)
+  onSubmit={async (email) => {
+    // 구독 처리
+  }}
+/>`}</code>
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사이즈별 특징
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-muted rounded-lg p-4">
+                    <h3 className="font-semibold text-foreground mb-2">Small (sm)</h3>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• 제목: text-base</li>
+                      <li>• 입력 필드: h-8, text-sm</li>
+                      <li>• 버튼: h-8</li>
+                      <li>• 추천: 모바일 화면</li>
+                    </ul>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4">
+                    <h3 className="font-semibold text-foreground mb-2">Medium (md)</h3>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• 제목: text-lg</li>
+                      <li>• 입력 필드: h-9</li>
+                      <li>• 버튼: h-9</li>
+                      <li>• 추천: 태블릿 화면</li>
+                    </ul>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4">
+                    <h3 className="font-semibold text-foreground mb-2">Large (lg)</h3>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• 제목: text-xl</li>
+                      <li>• 입력 필드: h-10, text-base</li>
+                      <li>• 버튼: h-10</li>
+                      <li>• 추천: 데스크톱 화면</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
