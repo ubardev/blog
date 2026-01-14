@@ -1,6 +1,7 @@
 "use client"
 
 import { BlogCard } from "@/components/blog-card"
+import { Hero } from "@/components/hero"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
 
@@ -89,25 +90,218 @@ export default function ComponentsDemoPage() {
   ))}
 </div>`
 
+  const heroUsageCode = `import { Hero } from "@/components/hero"
+
+// 기본 사용법
+<Hero
+  backgroundImage="https://example.com/hero-image.jpg"
+  title="환영합니다"
+  subtitle="모던한 블로그 플랫폼에 오신 것을 환영합니다"
+  ctaText="바로 가기"
+  ctaHref="/posts"
+/>
+
+// 사이즈 옵션
+<Hero
+  size="sm"  // 작은 사이즈 (모바일)
+  backgroundImage="https://example.com/hero-image.jpg"
+  title="제목"
+  subtitle="부제목"
+/>
+
+<Hero
+  size="md"  // 기본 사이즈
+  backgroundImage="https://example.com/hero-image.jpg"
+  title="제목"
+  subtitle="부제목"
+/>
+
+<Hero
+  size="lg"  // 큰 사이즈 (데스크톱)
+  backgroundImage="https://example.com/hero-image.jpg"
+  title="제목"
+  subtitle="부제목"
+/>`
+
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground mb-2">
-          BlogCard 컴포넌트 데모
-        </h1>
-        <p className="text-muted-foreground">
-          반응형 블로그 카드 컴포넌트의 다양한 사이즈와 사용법을 확인하세요.
-        </p>
+    <div className="space-y-16">
+      {/* Hero 컴포넌트 데모 */}
+      <div>
+        <div className="container mx-auto py-12 px-4">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              Hero 컴포넌트 데모
+            </h1>
+            <p className="text-muted-foreground">
+              히어로 섹션 컴포넌트의 다양한 사이즈와 사용법을 확인하세요.
+            </p>
+          </div>
+
+          <Tabs defaultValue="hero-demo" className="w-full">
+            <TabsList>
+              <TabsTrigger value="hero-demo">데모</TabsTrigger>
+              <TabsTrigger value="hero-usage">
+                <Code2 className="size-4 mr-2" />
+                사용법
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="hero-demo" className="space-y-12 mt-6">
+              {/* Small Size */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Smartphone className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Small (sm) - 모바일</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">추천: 모바일 화면</span>
+                </div>
+                <div className="w-full rounded-lg overflow-hidden border border-border">
+                  <Hero
+                    size="sm"
+                    backgroundImage="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&h=1080&fit=crop"
+                    title="Next.js 16의 새로운 기능들"
+                    subtitle="서버 컴포넌트의 성능 개선과 향상된 개발자 경험을 만나보세요"
+                    ctaText="더 알아보기"
+                    ctaHref="/posts/nextjs-16-features"
+                  />
+                </div>
+              </section>
+
+              {/* Medium Size */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Tablet className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Medium (md) - 태블릿</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">기본값, 태블릿 화면</span>
+                </div>
+                <div className="w-full rounded-lg overflow-hidden border border-border">
+                  <Hero
+                    size="md"
+                    backgroundImage="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&h=1080&fit=crop"
+                    title="TypeScript로 타입 안전한 코드 작성하기"
+                    subtitle="더 안전하고 유지보수하기 쉬운 코드를 작성하는 핵심 개념과 실전 팁"
+                    ctaText="바로 가기"
+                    ctaHref="/posts/typescript-tips"
+                  />
+                </div>
+              </section>
+
+              {/* Large Size */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Monitor className="size-5 text-muted-foreground" />
+                  <h2 className="text-2xl font-semibold text-foreground">Large (lg) - 데스크톱</h2>
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">추천: 데스크톱 화면</span>
+                </div>
+                <div className="w-full rounded-lg overflow-hidden border border-border">
+                  <Hero
+                    size="lg"
+                    backgroundImage="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1920&h=1080&fit=crop"
+                    title="Tailwind CSS 4와 OKLCH 색상 공간"
+                    subtitle="더 넓은 색상 범위를 표현할 수 있는 새로운 색상 시스템의 장점과 사용법"
+                    ctaText="더 알아보기"
+                    ctaHref="/posts/tailwind-oklch"
+                  />
+                </div>
+              </section>
+            </TabsContent>
+
+            <TabsContent value="hero-usage" className="mt-6">
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    Props
+                  </h2>
+                  <div className="bg-muted rounded-lg p-6 space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">필수 Props</h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li><code className="bg-background px-2 py-1 rounded">backgroundImage: string</code> - 배경 이미지 URL</li>
+                        <li><code className="bg-background px-2 py-1 rounded">title: string</code> - 히어로 섹션 제목</li>
+                        <li><code className="bg-background px-2 py-1 rounded">subtitle: string</code> - 히어로 섹션 부제목</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li><code className="bg-background px-2 py-1 rounded">size?: "sm" | "md" | "lg"</code> - 히어로 섹션 사이즈 (기본값: "md")</li>
+                        <li><code className="bg-background px-2 py-1 rounded">ctaText?: string</code> - CTA 버튼 텍스트 (기본값: "바로 가기")</li>
+                        <li><code className="bg-background px-2 py-1 rounded">ctaHref?: string</code> - CTA 버튼 링크 URL (기본값: "#")</li>
+                        <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    사용 예시
+                  </h2>
+                  <div className="bg-muted rounded-lg p-6">
+                    <pre className="text-sm text-foreground overflow-x-auto">
+                      <code>{heroUsageCode}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    사이즈별 특징
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-muted rounded-lg p-4">
+                      <h3 className="font-semibold text-foreground mb-2">Small (sm)</h3>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        <li>• 최소 높이: 400px</li>
+                        <li>• 제목: text-3xl ~ text-4xl</li>
+                        <li>• 부제목: text-base ~ text-lg</li>
+                        <li>• 추천: 모바일 화면</li>
+                      </ul>
+                    </div>
+                    <div className="bg-muted rounded-lg p-4">
+                      <h3 className="font-semibold text-foreground mb-2">Medium (md)</h3>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        <li>• 최소 높이: 500px</li>
+                        <li>• 제목: text-4xl ~ text-6xl</li>
+                        <li>• 부제목: text-lg ~ text-xl</li>
+                        <li>• 추천: 태블릿 화면</li>
+                      </ul>
+                    </div>
+                    <div className="bg-muted rounded-lg p-4">
+                      <h3 className="font-semibold text-foreground mb-2">Large (lg)</h3>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        <li>• 최소 높이: 600px</li>
+                        <li>• 제목: text-5xl ~ text-7xl</li>
+                        <li>• 부제목: text-xl ~ text-2xl</li>
+                        <li>• 추천: 데스크톱 화면</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
 
-      <Tabs defaultValue="demo" className="w-full">
-        <TabsList>
-          <TabsTrigger value="demo">데모</TabsTrigger>
-          <TabsTrigger value="usage">
-            <Code2 className="size-4 mr-2" />
-            사용법
-          </TabsTrigger>
-        </TabsList>
+      {/* BlogCard 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            BlogCard 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            반응형 블로그 카드 컴포넌트의 다양한 사이즈와 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="demo">데모</TabsTrigger>
+            <TabsTrigger value="usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
 
         <TabsContent value="demo" className="space-y-12 mt-6">
           {/* 반응형 사이즈 데모 */}
@@ -291,6 +485,7 @@ export default function ComponentsDemoPage() {
           </div>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   )
 }
