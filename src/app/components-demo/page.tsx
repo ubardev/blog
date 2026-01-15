@@ -4,6 +4,7 @@ import { BlogCard } from "@/components/blog-card"
 import { EmailCta } from "@/components/email-cta"
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
+import { Footer } from "@/components/footer"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
 
@@ -854,6 +855,154 @@ export default function Layout({ children }) {
                       <li>• <strong>태블릿/데스크톱</strong>: 전체 메뉴 표시 (md 이상)</li>
                       <li>• <strong>Sticky 헤더</strong>: 스크롤 시 상단에 고정</li>
                       <li>• <strong>백드롭 블러</strong>: 반투명 배경과 블러 효과</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Footer 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            Footer 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            풋터 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="footer-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="footer-demo">데모</TabsTrigger>
+            <TabsTrigger value="footer-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="footer-demo" className="space-y-12 mt-6">
+            {/* 기본 풋터 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 풋터
+              </h2>
+              <div className="w-full rounded-lg overflow-hidden border border-border">
+                <Footer />
+              </div>
+            </section>
+
+            {/* 반응형 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                반응형 동작
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Smartphone className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">모바일 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">1열 레이아웃</span>
+                  </div>
+                  <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
+                    <Footer />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Tablet className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">태블릿 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">2열 레이아웃</span>
+                  </div>
+                  <div className="w-full max-w-2xl mx-auto rounded-lg overflow-hidden border border-border">
+                    <Footer />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Monitor className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">데스크톱 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">4열 레이아웃</span>
+                  </div>
+                  <div className="w-full rounded-lg overflow-hidden border border-border">
+                    <Footer />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="footer-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { Footer } from "@/components/footer"
+
+// 기본 사용법
+<Footer />
+
+// 커스텀 클래스 추가
+<Footer className="mt-16" />
+
+// 레이아웃에 포함 예시
+export default function Layout({ children }) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1">{children}</main>
+      <Footer />
+    </div>
+  )
+}`}</code>
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  주요 기능
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">포함된 기능</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>다크모드 토글</strong>: 라이트/다크 모드 전환 버튼</li>
+                      <li>• <strong>빠른 네비게이션</strong>: 홈, 블로그, 소개, 문의 링크</li>
+                      <li>• <strong>연락처 정보</strong>: 이메일(bellin83@gmail.com), 전화번호(010-1234-1234)</li>
+                      <li>• <strong>소셜 미디어 링크</strong>: Instagram, Facebook, Youtube, GitHub (lucide-react 아이콘)</li>
+                      <li>• <strong>이메일 구독</strong>: EmailCta 컴포넌트를 통한 구독 기능</li>
+                      <li>• <strong>저작권 정보</strong>: 현재 연도 자동 표시</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">반응형 레이아웃</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>모바일</strong>: 1열 그리드 (grid-cols-1)</li>
+                      <li>• <strong>태블릿</strong>: 2열 그리드 (md:grid-cols-2)</li>
+                      <li>• <strong>데스크톱</strong>: 4열 그리드 (lg:grid-cols-4)</li>
                     </ul>
                   </div>
                 </div>
