@@ -6,6 +6,13 @@ import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Footer } from "@/components/footer"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
 
 export default function ComponentsDemoPage() {
@@ -45,6 +52,33 @@ export default function ComponentsDemoPage() {
       publishedDate: "2024-01-08",
       readTime: 7,
       href: "/posts/shadcn-ui",
+    },
+    {
+      thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+      title: "React 19의 새로운 기능 탐구",
+      summary: "React 19에서는 서버 컴포넌트, 자동 배칭, 그리고 향상된 성능 최적화 기능들이 추가되었습니다. 이번 업데이트로 개발자 경험이 크게 개선되었습니다.",
+      tags: ["React", "프론트엔드", "웹 개발"],
+      publishedDate: "2024-01-05",
+      readTime: 10,
+      href: "/posts/react-19",
+    },
+    {
+      thumbnail: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop",
+      title: "웹 성능 최적화 가이드",
+      summary: "웹사이트의 성능을 향상시키는 다양한 기법들을 알아봅니다. 이미지 최적화, 코드 스플리팅, 캐싱 전략 등 실전에서 바로 적용할 수 있는 팁들을 공유합니다.",
+      tags: ["성능", "최적화", "웹 개발"],
+      publishedDate: "2024-01-03",
+      readTime: 12,
+      href: "/posts/web-performance",
+    },
+    {
+      thumbnail: "https://images.unsplash.com/photo-1467232004584-a241de8bcf0d?w=800&h=400&fit=crop",
+      title: "모던 JavaScript ES2024 기능",
+      summary: "최신 JavaScript 표준인 ES2024의 새로운 기능들을 살펴봅니다. 최신 문법과 기능들을 활용하여 더 효율적이고 읽기 쉬운 코드를 작성하는 방법을 알아봅시다.",
+      tags: ["JavaScript", "ES2024", "프로그래밍"],
+      publishedDate: "2024-01-01",
+      readTime: 9,
+      href: "/posts/es2024",
     },
   ]
 
@@ -284,6 +318,270 @@ export default function ComponentsDemoPage() {
             </TabsContent>
           </Tabs>
         </div>
+      </div>
+
+      {/* BlogCard Carousel 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            BlogCard Carousel 데모
+          </h1>
+          <p className="text-muted-foreground">
+            BlogCard 컴포넌트를 사용한 Carousel 형태의 데모입니다. 한 페이지에 3개의 카드가 표시됩니다.
+          </p>
+        </div>
+
+        <Tabs defaultValue="carousel-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="carousel-demo">데모</TabsTrigger>
+            <TabsTrigger value="carousel-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="carousel-demo" className="space-y-12 mt-6">
+            {/* 기본 Carousel 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 Carousel (한 페이지에 3개 카드)
+              </h2>
+              <div className="w-full max-w-6xl mx-auto">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    slidesToScroll: 1,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-2 md:-ml-4">
+                    {samplePosts.map((post, index) => (
+                      <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                        <div className="h-full">
+                          <BlogCard
+                            thumbnail={post.thumbnail}
+                            title={post.title}
+                            summary={post.summary}
+                            tags={post.tags}
+                            publishedDate={post.publishedDate}
+                            readTime={post.readTime}
+                            href={post.href}
+                            size="md"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="-left-12" />
+                  <CarouselNext className="-right-12" />
+                </Carousel>
+              </div>
+            </section>
+
+            {/* 반응형 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                반응형 동작
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Smartphone className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">모바일 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">1개 카드 표시</span>
+                  </div>
+                  <div className="w-full max-w-sm mx-auto">
+                    <Carousel
+                      opts={{
+                        align: "start",
+                        slidesToScroll: 1,
+                      }}
+                      className="w-full"
+                    >
+                      <CarouselContent className="-ml-2">
+                        {samplePosts.slice(0, 3).map((post, index) => (
+                          <CarouselItem key={index} className="pl-2 basis-full">
+                            <div className="h-full">
+                              <BlogCard
+                                thumbnail={post.thumbnail}
+                                title={post.title}
+                                summary={post.summary}
+                                tags={post.tags}
+                                publishedDate={post.publishedDate}
+                                readTime={post.readTime}
+                                href={post.href}
+                                size="sm"
+                              />
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="-left-8" />
+                      <CarouselNext className="-right-8" />
+                    </Carousel>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Tablet className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">태블릿 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">2개 카드 표시</span>
+                  </div>
+                  <div className="w-full max-w-2xl mx-auto">
+                    <Carousel
+                      opts={{
+                        align: "start",
+                        slidesToScroll: 1,
+                      }}
+                      className="w-full"
+                    >
+                      <CarouselContent className="-ml-4">
+                        {samplePosts.slice(0, 4).map((post, index) => (
+                          <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2">
+                            <div className="h-full">
+                              <BlogCard
+                                thumbnail={post.thumbnail}
+                                title={post.title}
+                                summary={post.summary}
+                                tags={post.tags}
+                                publishedDate={post.publishedDate}
+                                readTime={post.readTime}
+                                href={post.href}
+                                size="md"
+                              />
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="-left-12" />
+                      <CarouselNext className="-right-12" />
+                    </Carousel>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Monitor className="size-5 text-muted-foreground" />
+                    <h3 className="text-lg font-medium text-foreground">데스크톱 화면</h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">3개 카드 표시</span>
+                  </div>
+                  <div className="w-full max-w-6xl mx-auto">
+                    <Carousel
+                      opts={{
+                        align: "start",
+                        slidesToScroll: 1,
+                      }}
+                      className="w-full"
+                    >
+                      <CarouselContent className="-ml-4">
+                        {samplePosts.map((post, index) => (
+                          <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                            <div className="h-full">
+                              <BlogCard
+                                thumbnail={post.thumbnail}
+                                title={post.title}
+                                summary={post.summary}
+                                tags={post.tags}
+                                publishedDate={post.publishedDate}
+                                readTime={post.readTime}
+                                href={post.href}
+                                size="md"
+                              />
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="-left-12" />
+                      <CarouselNext className="-right-12" />
+                    </Carousel>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="carousel-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { BlogCard } from "@/components/blog-card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
+// 기본 사용법 (한 페이지에 3개 카드)
+<Carousel
+  opts={{
+    align: "start",
+    slidesToScroll: 1,
+  }}
+  className="w-full"
+>
+  <CarouselContent className="-ml-4">
+    {posts.map((post, index) => (
+      <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+        <div className="h-full">
+          <BlogCard
+            thumbnail={post.thumbnail}
+            title={post.title}
+            summary={post.summary}
+            tags={post.tags}
+            publishedDate={post.publishedDate}
+            readTime={post.readTime}
+            href={post.href}
+            size="md"
+          />
+        </div>
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious className="-left-12" />
+  <CarouselNext className="-right-12" />
+</Carousel>
+
+// 반응형 설정
+// 모바일: basis-full (1개)
+// 태블릿: md:basis-1/2 (2개)
+// 데스크톱: lg:basis-1/3 (3개)`}</code>
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Carousel 옵션
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">주요 옵션</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <code className="bg-background px-2 py-1 rounded">align: "start"</code> - 슬라이드 정렬 방식</li>
+                      <li>• <code className="bg-background px-2 py-1 rounded">slidesToScroll: 1</code> - 한 번에 스크롤할 슬라이드 수</li>
+                      <li>• <code className="bg-background px-2 py-1 rounded">loop: true</code> - 무한 루프 (선택사항)</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">반응형 클래스</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <code className="bg-background px-2 py-1 rounded">basis-full</code> - 모바일: 1개 카드 (100%)</li>
+                      <li>• <code className="bg-background px-2 py-1 rounded">md:basis-1/2</code> - 태블릿: 2개 카드 (50%)</li>
+                      <li>• <code className="bg-background px-2 py-1 rounded">lg:basis-1/3</code> - 데스크톱: 3개 카드 (33.33%)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* BlogCard 컴포넌트 데모 */}
