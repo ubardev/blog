@@ -48,7 +48,7 @@ export function Hero({
           sizes="100vw"
         />
         {/* 오버레이 - 가독성을 위한 어두운 레이어 */}
-        <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
+        <div className="absolute inset-0 bg-foreground/40 dark:bg-foreground/60" />
       </div>
 
       {/* 콘텐츠 */}
@@ -57,7 +57,7 @@ export function Hero({
           {/* 제목 */}
           <h1
             className={cn(
-              "font-bold text-white drop-shadow-lg",
+              "font-bold text-background drop-shadow-lg",
               size === "sm" && "text-3xl md:text-4xl",
               size === "md" && "text-4xl md:text-5xl lg:text-6xl",
               size === "lg" && "text-5xl md:text-6xl lg:text-7xl"
@@ -69,7 +69,7 @@ export function Hero({
           {/* 부제목 */}
           <p
             className={cn(
-              "text-white/90 drop-shadow-md",
+              "text-background/90 drop-shadow-md",
               size === "sm" && "text-base md:text-lg",
               size === "md" && "text-lg md:text-xl",
               size === "lg" && "text-xl md:text-2xl"
