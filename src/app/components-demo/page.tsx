@@ -5,6 +5,7 @@ import { EmailCta } from "@/components/email-cta"
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Footer } from "@/components/footer"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Carousel,
@@ -1301,6 +1302,160 @@ export default function Layout({ children }) {
                       <li>• <strong>모바일</strong>: 1열 그리드 (grid-cols-1)</li>
                       <li>• <strong>태블릿</strong>: 2열 그리드 (md:grid-cols-2)</li>
                       <li>• <strong>데스크톱</strong>: 4열 그리드 (lg:grid-cols-4)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* ThemeToggle 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            ThemeToggle 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            다크/라이트 모드 토글 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="theme-toggle-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="theme-toggle-demo">데모</TabsTrigger>
+            <TabsTrigger value="theme-toggle-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="theme-toggle-demo" className="space-y-12 mt-6">
+            {/* 기본 토글 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 토글
+              </h2>
+              <div className="flex items-center gap-4 p-6 rounded-lg border border-border bg-card">
+                <ThemeToggle />
+                <span className="text-sm text-muted-foreground">
+                  버튼을 클릭하여 다크/라이트 모드를 전환할 수 있습니다.
+                </span>
+              </div>
+            </section>
+
+            {/* 다양한 크기 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                사용 예시
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-medium text-foreground mb-3">
+                    헤더에 사용
+                  </h3>
+                  <div className="p-4 rounded-lg border border-border bg-card">
+                    <div className="flex items-center justify-end gap-2">
+                      <ThemeToggle />
+                      <button className="px-4 py-2 text-sm border border-border rounded-md hover:bg-muted">
+                        로그인
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium text-foreground mb-3">
+                    독립적으로 사용
+                  </h3>
+                  <div className="flex items-center gap-4 p-6 rounded-lg border border-border bg-card">
+                    <ThemeToggle />
+                    <div className="text-sm text-muted-foreground">
+                      <p>현재 모드: <strong className="text-foreground">자동 감지</strong></p>
+                      <p className="mt-1">설정은 localStorage에 저장되어 다음 방문 시에도 유지됩니다.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="theme-toggle-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-2 px-4 font-semibold text-foreground">Prop</th>
+                        <th className="text-left py-2 px-4 font-semibold text-foreground">타입</th>
+                        <th className="text-left py-2 px-4 font-semibold text-foreground">설명</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-border">
+                        <td className="py-2 px-4 text-foreground">className</td>
+                        <td className="py-2 px-4 text-muted-foreground">string?</td>
+                        <td className="py-2 px-4 text-muted-foreground">추가 CSS 클래스</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { ThemeToggle } from "@/components/theme-toggle"
+
+// 기본 사용법
+<ThemeToggle />
+
+// 헤더에 사용
+<div className="flex items-center gap-2">
+  <ThemeToggle />
+  <Button>로그인</Button>
+</div>
+
+// 커스텀 클래스 추가
+<ThemeToggle className="h-10 w-10" />`}</code>
+                  </pre>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  주요 기능
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">자동 테마 감지</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• localStorage에 저장된 테마 설정 우선 적용</li>
+                      <li>• 저장된 설정이 없으면 시스템 설정(다크 모드) 자동 감지</li>
+                      <li>• 시스템 설정 변경 시 자동으로 테마 업데이트 (저장된 설정이 없는 경우)</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">설정 저장</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• 사용자가 선택한 테마는 localStorage에 저장</li>
+                      <li>• 다음 방문 시 저장된 테마 자동 적용</li>
+                      <li>• 저장된 설정이 있으면 시스템 설정 변경 무시</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">SSR 최적화</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• 서버 사이드 렌더링 시 깜빡임 방지</li>
+                      <li>• 클라이언트에서만 테마 상태 관리</li>
                     </ul>
                   </div>
                 </div>

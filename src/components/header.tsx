@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 
 export interface HeaderProps {
@@ -44,7 +45,8 @@ export function Header({ className }: HeaderProps) {
         </nav>
 
         {/* 로그인 버튼 - 오른쪽 정렬 */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Link href="/login">
             <Button variant="outline" size="sm">
               로그인
