@@ -43,7 +43,7 @@ export function BlogCard({
   className,
 }: BlogCardProps) {
   return (
-    <Card className={cn("overflow-hidden flex h-full", blogCardVariants({ size }), className)}>
+    <Card className={cn("overflow-hidden flex h-full pt-0", blogCardVariants({ size }), className)}>
       {/* 썸네일 이미지 */}
       <div className={cn(
         "relative w-full overflow-hidden",
