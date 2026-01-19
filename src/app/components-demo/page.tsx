@@ -9,6 +9,8 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { PostHeader } from "@/components/post-header"
 import { PostContent } from "@/components/post-content"
 import { PostNavigation } from "@/components/post-navigation"
+import { LoginForm } from "@/components/login-form"
+import { SignupForm } from "@/components/signup-form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Carousel,
@@ -1307,6 +1309,271 @@ export default function Layout({ children }) {
                       <li>• <strong>데스크톱</strong>: 4열 그리드 (lg:grid-cols-4)</li>
                     </ul>
                   </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* LoginForm 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            LoginForm 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            로그인 폼 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="login-form-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="login-form-demo">데모</TabsTrigger>
+            <TabsTrigger value="login-form-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="login-form-demo" className="space-y-12 mt-6">
+            {/* 기본 로그인 폼 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 로그인 폼
+              </h2>
+              <div className="flex justify-center">
+                <div className="w-full max-w-md">
+                  <LoginForm />
+                </div>
+              </div>
+            </section>
+
+            {/* 반응형 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                반응형 레이아웃
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Smartphone className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">모바일 화면</span>
+                  </div>
+                  <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
+                    <LoginForm />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Tablet className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">태블릿 화면</span>
+                  </div>
+                  <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
+                    <LoginForm />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Monitor className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">데스크톱 화면</span>
+                  </div>
+                  <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
+                    <LoginForm />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="login-form-usage" className="space-y-6 mt-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 사용법
+              </h2>
+              <div className="bg-muted rounded-lg p-6">
+                <pre className="text-sm text-foreground overflow-x-auto">
+                  <code>{`import { LoginForm } from "@/components/login-form"
+
+// 기본 사용법
+<LoginForm />
+
+// 페이지에 포함 예시
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 flex items-center justify-center px-4 py-16">
+        <LoginForm />
+      </main>
+      <Footer />
+    </div>
+  )
+}`}</code>
+                </pre>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                주요 기능
+              </h2>
+              <div className="bg-muted rounded-lg p-6 space-y-4">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">포함된 기능</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• <strong>이메일 입력</strong>: 이메일 형식 검증</li>
+                    <li>• <strong>비밀번호 입력</strong>: 비밀번호 필드 (마스킹 처리)</li>
+                    <li>• <strong>비밀번호 찾기</strong>: 비밀번호 찾기 링크</li>
+                    <li>• <strong>소셜 로그인</strong>: Google, GitHub 로그인 버튼</li>
+                    <li>• <strong>회원가입 링크</strong>: 회원가입 페이지로 이동</li>
+                    <li>• <strong>폼 검증</strong>: HTML5 기본 검증 (required)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">스타일링</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• <strong>테마 지원</strong>: 다크/라이트 모드 자동 적용</li>
+                    <li>• <strong>반응형 디자인</strong>: 모바일부터 데스크톱까지 최적화</li>
+                    <li>• <strong>접근성</strong>: Label 연결, 키보드 네비게이션 지원</li>
+                    <li>• <strong>Card 기반</strong>: shadcn/ui Card 컴포넌트 사용</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* SignupForm 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            SignupForm 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            회원가입 폼 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="signup-form-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="signup-form-demo">데모</TabsTrigger>
+            <TabsTrigger value="signup-form-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="signup-form-demo" className="space-y-12 mt-6">
+            {/* 기본 회원가입 폼 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 회원가입 폼
+              </h2>
+              <div className="flex justify-center">
+                <div className="w-full max-w-md">
+                  <SignupForm />
+                </div>
+              </div>
+            </section>
+
+            {/* 반응형 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                반응형 레이아웃
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Smartphone className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">모바일 화면</span>
+                  </div>
+                  <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
+                    <SignupForm />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Tablet className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">태블릿 화면</span>
+                  </div>
+                  <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
+                    <SignupForm />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <Monitor className="size-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">데스크톱 화면</span>
+                  </div>
+                  <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
+                    <SignupForm />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="signup-form-usage" className="space-y-6 mt-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 사용법
+              </h2>
+              <div className="bg-muted rounded-lg p-6">
+                <pre className="text-sm text-foreground overflow-x-auto">
+                  <code>{`import { SignupForm } from "@/components/signup-form"
+
+// 기본 사용법
+<SignupForm />
+
+// 페이지에 포함 예시
+export default function SignupPage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 flex items-center justify-center px-4 py-16">
+        <SignupForm />
+      </main>
+      <Footer />
+    </div>
+  )
+}`}</code>
+                </pre>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                주요 기능
+              </h2>
+              <div className="bg-muted rounded-lg p-6 space-y-4">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">포함된 기능</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• <strong>이름 입력</strong>: 사용자 이름 입력 필드</li>
+                    <li>• <strong>이메일 입력</strong>: 이메일 형식 검증</li>
+                    <li>• <strong>비밀번호 입력</strong>: 비밀번호 필드 (최소 8자)</li>
+                    <li>• <strong>비밀번호 확인</strong>: 비밀번호 일치 검증</li>
+                    <li>• <strong>약관 동의</strong>: 이용약관 및 개인정보처리방침 동의 체크박스</li>
+                    <li>• <strong>소셜 회원가입</strong>: Google, GitHub 회원가입 버튼</li>
+                    <li>• <strong>로그인 링크</strong>: 로그인 페이지로 이동</li>
+                    <li>• <strong>폼 검증</strong>: HTML5 기본 검증 및 커스텀 검증</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">스타일링</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• <strong>테마 지원</strong>: 다크/라이트 모드 자동 적용</li>
+                    <li>• <strong>반응형 디자인</strong>: 모바일부터 데스크톱까지 최적화</li>
+                    <li>• <strong>접근성</strong>: Label 연결, 키보드 네비게이션 지원</li>
+                    <li>• <strong>Card 기반</strong>: shadcn/ui Card 컴포넌트 사용</li>
+                    <li>• <strong>조건부 버튼 활성화</strong>: 약관 동의 시에만 회원가입 버튼 활성화</li>
+                  </ul>
                 </div>
               </div>
             </div>
