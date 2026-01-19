@@ -24,7 +24,7 @@ export function Header({ className }: HeaderProps) {
             href="/"
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            코드패토리
+            Ubar
           </Link>
         </div>
 

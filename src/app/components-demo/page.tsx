@@ -913,7 +913,7 @@ import {
                   <div>
                     <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
                     <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li><code className="bg-background px-2 py-1 rounded">title?: string</code> - 제목 텍스트 (기본값: "코드팩토리에 구독하세요")</li>
+                      <li><code className="bg-background px-2 py-1 rounded">title?: string</code> - 제목 텍스트 (기본값: "Ubar Blog에 구독하세요")</li>
                       <li><code className="bg-background px-2 py-1 rounded">placeholder?: string</code> - 이메일 입력 필드 placeholder (기본값: "이메일을 입력하세요")</li>
                       <li><code className="bg-background px-2 py-1 rounded">buttonText?: string</code> - 버튼 텍스트 (기본값: "구독하기")</li>
                       <li><code className="bg-background px-2 py-1 rounded">size?: "sm" | "md" | "lg"</code> - 컴포넌트 사이즈 (기본값: "md")</li>

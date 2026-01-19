@@ -38,7 +38,7 @@ export function Footer({ className }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* 브랜드 섹션 */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-foreground">코드패토리</h3>
+            <h3 className="text-lg font-bold text-foreground">Ubar Blog</h3>
             <p className="text-sm text-muted-foreground">
               모던한 웹 개발과 기술 트렌드를 공유하는 블로그입니다.
             </p>
@@ -163,11 +163,6 @@ export function Footer({ className }: FooterProps) {
               title="최신 포스트를 이메일로 받아보세요"
               placeholder="이메일을 입력하세요"
               buttonText="구독하기"
-              onSubmit={async (email) => {
-                console.log("구독 이메일:", email)
-                await new Promise((resolve) => setTimeout(resolve, 1000))
-                alert(`구독 완료: ${email}`)
-              }}
             />
           </div>
         </div>

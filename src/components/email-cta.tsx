@@ -28,7 +28,7 @@ export interface EmailCtaProps extends VariantProps<typeof emailCtaVariants> {
 }
 
 export function EmailCta({
-  title = "코드팩토리에 구독하세요",
+  title = "Ubar Blog에 구독하세요",
   placeholder = "이메일을 입력하세요",
   buttonText = "구독하기",
   onSubmit,
@@ -47,7 +47,14 @@ export function EmailCta({
 
     setIsSubmitting(true)
     try {
-      await onSubmit?.(email)
+      if (onSubmit) {
+        await onSubmit(email)
+      } else {
+        // 기본 동작: 구독 처리 시뮬레이션
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        console.log("구독 이메일:", email)
+        alert(`구독 완료: ${email}`)
+      }
       setEmail("")
     } catch (error) {
       console.error("구독 실패:", error)
