@@ -10,70 +10,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { getAllPosts } from "@/lib/blog-data"
 
-// 샘플 블로그 데이터
-const blogPosts = [
-  {
-    id: 1,
-    thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
-    title: "Next.js 16의 새로운 기능들",
-    summary: "Next.js 16에서 추가된 서버 컴포넌트, 캐싱 개선, 그리고 성능 최적화 기능들을 살펴봅니다.",
-    tags: ["Next.js", "React", "웹 개발"],
-    publishedDate: "2024-01-15",
-    readTime: 5,
-    href: "/blog/nextjs-16",
-  },
-  {
-    id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
-    title: "TypeScript로 타입 안전한 API 클라이언트 만들기",
-    summary: "TypeScript의 제네릭과 타입 추론을 활용하여 완전히 타입 안전한 API 클라이언트를 구현하는 방법을 알아봅니다.",
-    tags: ["TypeScript", "API", "프론트엔드"],
-    publishedDate: "2024-01-12",
-    readTime: 8,
-    href: "/blog/typescript-api-client",
-  },
-  {
-    id: 3,
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    title: "Tailwind CSS 4의 OKLCH 색상 시스템",
-    summary: "Tailwind CSS 4에서 도입된 OKLCH 색상 공간의 장점과 활용 방법을 설명합니다.",
-    tags: ["Tailwind CSS", "디자인", "CSS"],
-    publishedDate: "2024-01-10",
-    readTime: 6,
-    href: "/blog/tailwind-oklch",
-  },
-  {
-    id: 4,
-    thumbnail: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop",
-    title: "React Server Components 완전 정복",
-    summary: "React Server Components의 개념부터 실제 프로젝트에 적용하는 방법까지 단계별로 설명합니다.",
-    tags: ["React", "서버 컴포넌트", "성능 최적화"],
-    publishedDate: "2024-01-08",
-    readTime: 10,
-    href: "/blog/react-server-components",
-  },
-  {
-    id: 5,
-    thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
-    title: "모던 웹 개발을 위한 최적화 전략",
-    summary: "웹 성능 최적화를 위한 다양한 기법과 도구들을 소개하고 실제 적용 사례를 공유합니다.",
-    tags: ["성능 최적화", "웹 개발", "Best Practices"],
-    publishedDate: "2024-01-05",
-    readTime: 12,
-    href: "/blog/web-optimization",
-  },
-  {
-    id: 6,
-    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    title: "shadcn/ui로 빠르게 UI 구축하기",
-    summary: "shadcn/ui를 활용하여 아름답고 접근성이 좋은 UI 컴포넌트를 빠르게 구축하는 방법을 알아봅니다.",
-    tags: ["shadcn/ui", "UI 컴포넌트", "디자인 시스템"],
-    publishedDate: "2024-01-03",
-    readTime: 7,
-    href: "/blog/shadcn-ui",
-  },
-]
+// 블로그 데이터 가져오기
+const blogPosts = getAllPosts().map((post) => ({
+  id: post.id,
+  thumbnail: post.thumbnail,
+  title: post.title,
+  summary: post.summary,
+  tags: post.tags,
+  publishedDate: post.publishedDate,
+  readTime: post.readTime,
+  href: `/blog/${post.slug}`,
+}))
 
 export default function Home() {
   return (

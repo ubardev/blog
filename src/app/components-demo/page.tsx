@@ -6,6 +6,9 @@ import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Footer } from "@/components/footer"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { PostHeader } from "@/components/post-header"
+import { PostContent } from "@/components/post-content"
+import { PostNavigation } from "@/components/post-navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Carousel,
@@ -1458,6 +1461,466 @@ export default function Layout({ children }) {
                       <li>• 클라이언트에서만 테마 상태 관리</li>
                     </ul>
                   </div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* PostHeader 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            PostHeader 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            블로그 포스트 헤더 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="post-header-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="post-header-demo">데모</TabsTrigger>
+            <TabsTrigger value="post-header-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="post-header-demo" className="space-y-12 mt-6">
+            {/* 기본 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                기본 PostHeader (썸네일 포함)
+              </h2>
+              <div className="max-w-3xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostHeader
+                  thumbnail="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1920&h=1080&fit=crop"
+                  title="Next.js 16의 새로운 기능들"
+                  author="Ubar"
+                  publishedDate="2024-01-15"
+                  readTime={5}
+                  tags={["Next.js", "React", "웹 개발"]}
+                />
+              </div>
+            </section>
+
+            {/* 썸네일 없는 버전 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                썸네일 없는 PostHeader
+              </h2>
+              <div className="max-w-3xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostHeader
+                  title="TypeScript로 타입 안전한 API 클라이언트 만들기"
+                  author="Ubar"
+                  publishedDate="2024-01-12"
+                  readTime={8}
+                  tags={["TypeScript", "API", "프론트엔드"]}
+                />
+              </div>
+            </section>
+
+            {/* 작성자 없는 버전 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                작성자 없는 PostHeader
+              </h2>
+              <div className="max-w-3xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostHeader
+                  thumbnail="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop"
+                  title="Tailwind CSS 4의 OKLCH 색상 시스템"
+                  publishedDate="2024-01-10"
+                  readTime={6}
+                  tags={["Tailwind CSS", "디자인", "CSS"]}
+                />
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="post-header-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">필수 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">title: string</code> - 포스트 제목</li>
+                      <li><code className="bg-background px-2 py-1 rounded">publishedDate: string</code> - 발행일 (YYYY-MM-DD 형식)</li>
+                      <li><code className="bg-background px-2 py-1 rounded">readTime: number</code> - 읽는 시간 (분)</li>
+                      <li><code className="bg-background px-2 py-1 rounded">tags: string[]</code> - 태그 배열</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">thumbnail?: string</code> - 썸네일 이미지 URL</li>
+                      <li><code className="bg-background px-2 py-1 rounded">author?: string</code> - 작성자 이름</li>
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { PostHeader } from "@/components/post-header"
+
+// 기본 사용법
+<PostHeader
+  title="Next.js 16의 새로운 기능들"
+  author="Ubar"
+  publishedDate="2024-01-15"
+  readTime={5}
+  tags={["Next.js", "React", "웹 개발"]}
+/>
+
+// 썸네일 포함
+<PostHeader
+  thumbnail="https://example.com/image.jpg"
+  title="포스트 제목"
+  author="작성자"
+  publishedDate="2024-01-15"
+  readTime={5}
+  tags={["태그1", "태그2"]}
+/>
+
+// 작성자 없이
+<PostHeader
+  title="포스트 제목"
+  publishedDate="2024-01-15"
+  readTime={5}
+  tags={["태그1"]}
+/>`}</code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* PostContent 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            PostContent 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            블로그 포스트 본문 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="post-content-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="post-content-demo">데모</TabsTrigger>
+            <TabsTrigger value="post-content-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="post-content-demo" className="space-y-12 mt-6">
+            {/* 마크다운 텍스트 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                마크다운 텍스트 렌더링
+              </h2>
+              <div className="max-w-3xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostContent
+                  content={`# 소개
+
+Next.js 16이 출시되면서 많은 새로운 기능들이 추가되었습니다. 이번 글에서는 주요 기능들을 살펴보겠습니다.
+
+## 서버 컴포넌트의 성능 개선
+
+서버 컴포넌트는 이제 더욱 빠르게 렌더링됩니다. 이는 전체 애플리케이션의 성능을 크게 향상시킵니다.
+
+### 주요 개선 사항
+
+- 렌더링 속도 향상
+- 메모리 사용량 감소
+- 더 나은 캐싱 전략
+
+## 캐싱 개선
+
+Next.js 16에서는 캐싱 전략이 개선되었습니다. 이제 더 효율적으로 데이터를 캐싱할 수 있습니다.
+
+## 결론
+
+Next.js 16은 성능과 개발자 경험을 크게 향상시켰습니다.`}
+                />
+              </div>
+            </section>
+
+            {/* React Node 데모 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                React Node로 렌더링
+              </h2>
+              <div className="max-w-3xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostContent>
+                  <h1>소개</h1>
+                  <p>
+                    Next.js 16이 출시되면서 많은 새로운 기능들이 추가되었습니다. 
+                    이번 글에서는 주요 기능들을 살펴보겠습니다.
+                  </p>
+                  <h2>서버 컴포넌트의 성능 개선</h2>
+                  <p>
+                    서버 컴포넌트는 이제 더욱 빠르게 렌더링됩니다. 
+                    이는 전체 애플리케이션의 성능을 크게 향상시킵니다.
+                  </p>
+                  <ul>
+                    <li>렌더링 속도 향상</li>
+                    <li>메모리 사용량 감소</li>
+                    <li>더 나은 캐싱 전략</li>
+                  </ul>
+                  <h2>결론</h2>
+                  <p>
+                    Next.js 16은 성능과 개발자 경험을 크게 향상시켰습니다.
+                  </p>
+                </PostContent>
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="post-content-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li><code className="bg-background px-2 py-1 rounded">content?: string</code> - 마크다운 텍스트 (간단한 파싱 지원)</li>
+                      <li><code className="bg-background px-2 py-1 rounded">children?: ReactNode</code> - 이미 렌더링된 React 노드</li>
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">참고</h3>
+                    <p className="text-sm text-muted-foreground">
+                      <code className="bg-background px-2 py-1 rounded">children</code>이 있으면 <code className="bg-background px-2 py-1 rounded">content</code>보다 우선합니다.
+                      완전한 마크다운 지원을 위해서는 <code className="bg-background px-2 py-1 rounded">react-markdown</code> 같은 라이브러리를 사용하는 것을 권장합니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { PostContent } from "@/components/post-content"
+
+// 마크다운 텍스트 사용
+<PostContent
+  content={\`# 제목
+
+본문 내용입니다.
+
+## 소제목
+
+더 많은 내용...\`}
+/>
+
+// React Node 사용 (권장)
+<PostContent>
+  <h1>제목</h1>
+  <p>본문 내용입니다.</p>
+  <h2>소제목</h2>
+  <p>더 많은 내용...</p>
+</PostContent>`}</code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* PostNavigation 컴포넌트 데모 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            PostNavigation 컴포넌트 데모
+          </h1>
+          <p className="text-muted-foreground">
+            이전/다음 포스트 네비게이션 컴포넌트의 사용법을 확인하세요.
+          </p>
+        </div>
+
+        <Tabs defaultValue="post-navigation-demo" className="w-full">
+          <TabsList>
+            <TabsTrigger value="post-navigation-demo">데모</TabsTrigger>
+            <TabsTrigger value="post-navigation-usage">
+              <Code2 className="size-4 mr-2" />
+              사용법
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="post-navigation-demo" className="space-y-12 mt-6">
+            {/* 이전/다음 모두 있는 경우 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                이전/다음 포스트 모두 있는 경우
+              </h2>
+              <div className="max-w-4xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostNavigation
+                  previousPost={{
+                    title: "TypeScript로 타입 안전한 API 클라이언트 만들기",
+                    href: "/blog/typescript-api-client",
+                    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
+                  }}
+                  nextPost={{
+                    title: "Tailwind CSS 4의 OKLCH 색상 시스템",
+                    href: "/blog/tailwind-oklch",
+                    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+                  }}
+                />
+              </div>
+            </section>
+
+            {/* 이전 포스트만 있는 경우 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                이전 포스트만 있는 경우 (첫 번째 포스트)
+              </h2>
+              <div className="max-w-4xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostNavigation
+                  nextPost={{
+                    title: "Tailwind CSS 4의 OKLCH 색상 시스템",
+                    href: "/blog/tailwind-oklch",
+                    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+                  }}
+                />
+              </div>
+            </section>
+
+            {/* 다음 포스트만 있는 경우 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                다음 포스트만 있는 경우 (마지막 포스트)
+              </h2>
+              <div className="max-w-4xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostNavigation
+                  previousPost={{
+                    title: "TypeScript로 타입 안전한 API 클라이언트 만들기",
+                    href: "/blog/typescript-api-client",
+                    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
+                  }}
+                />
+              </div>
+            </section>
+
+            {/* 썸네일 없는 버전 */}
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">
+                썸네일 없는 버전
+              </h2>
+              <div className="max-w-4xl mx-auto border border-border rounded-lg p-6 bg-card">
+                <PostNavigation
+                  previousPost={{
+                    title: "TypeScript로 타입 안전한 API 클라이언트 만들기",
+                    href: "/blog/typescript-api-client",
+                  }}
+                  nextPost={{
+                    title: "Tailwind CSS 4의 OKLCH 색상 시스템",
+                    href: "/blog/tailwind-oklch",
+                  }}
+                />
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="post-navigation-usage" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  Props
+                </h2>
+                <div className="bg-muted rounded-lg p-6 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>
+                        <code className="bg-background px-2 py-1 rounded">previousPost?: PostNavigationPost</code> - 이전 포스트 정보
+                        <ul className="ml-4 mt-1 space-y-1">
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">title: string</code> - 포스트 제목</li>
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">href: string</code> - 포스트 링크</li>
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">thumbnail?: string</code> - 썸네일 이미지 URL (선택)</li>
+                        </ul>
+                      </li>
+                      <li>
+                        <code className="bg-background px-2 py-1 rounded">nextPost?: PostNavigationPost</code> - 다음 포스트 정보
+                        <ul className="ml-4 mt-1 space-y-1">
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">title: string</code> - 포스트 제목</li>
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">href: string</code> - 포스트 링크</li>
+                          <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">thumbnail?: string</code> - 썸네일 이미지 URL (선택)</li>
+                        </ul>
+                      </li>
+                      <li><code className="bg-background px-2 py-1 rounded">className?: string</code> - 추가 CSS 클래스</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">참고</h3>
+                    <p className="text-sm text-muted-foreground">
+                      <code className="bg-background px-2 py-1 rounded">previousPost</code>와 <code className="bg-background px-2 py-1 rounded">nextPost</code>가 모두 없으면 컴포넌트가 렌더링되지 않습니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">
+                  사용 예시
+                </h2>
+                <div className="bg-muted rounded-lg p-6">
+                  <pre className="text-sm text-foreground overflow-x-auto">
+                    <code>{`import { PostNavigation } from "@/components/post-navigation"
+
+// 이전/다음 포스트 모두
+<PostNavigation
+  previousPost={{
+    title: "이전 포스트 제목",
+    href: "/blog/previous-post",
+    thumbnail: "https://example.com/thumbnail.jpg",
+  }}
+  nextPost={{
+    title: "다음 포스트 제목",
+    href: "/blog/next-post",
+    thumbnail: "https://example.com/thumbnail.jpg",
+  }}
+/>
+
+// 이전 포스트만
+<PostNavigation
+  nextPost={{
+    title: "다음 포스트 제목",
+    href: "/blog/next-post",
+  }}
+/>
+
+// 다음 포스트만
+<PostNavigation
+  previousPost={{
+    title: "이전 포스트 제목",
+    href: "/blog/previous-post",
+  }}
+/>`}</code>
+                  </pre>
                 </div>
               </div>
             </div>
