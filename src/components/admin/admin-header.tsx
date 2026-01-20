@@ -4,11 +4,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LogOut } from "lucide-react"
+import { signOut } from "@/app/auth/actions"
 
 export function AdminHeader() {
-  const handleLogout = () => {
-    console.log("로그아웃")
-    // 실제 로그아웃 로직은 나중에 구현
+  async function handleLogout() {
+    await signOut()
   }
 
   return (
@@ -25,15 +25,17 @@ export function AdminHeader() {
         
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLogout}
-            className="gap-2"
-          >
-            <LogOut className="size-4" />
-            로그아웃
-          </Button>
+          <form action={signOut}>
+            <Button
+              type="submit"
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <LogOut className="size-4" />
+              로그아웃
+            </Button>
+          </form>
         </div>
       </div>
     </header>

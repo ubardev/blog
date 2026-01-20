@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { signUp } from "@/app/auth/actions"
 
 export function SignupForm() {
   const [name, setName] = useState("")
@@ -15,24 +17,37 @@ export function SignupForm() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [agreeToTerms, setAgreeToTerms] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const searchParams = useSearchParams()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const errorParam = searchParams.get('error')
+    if (errorParam) setError(decodeURIComponent(errorParam))
+  }, [searchParams])
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setIsLoading(true)
+    setError(null)
     
     // 비밀번호 확인 검증
     if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.")
+      setError("비밀번호가 일치하지 않습니다.")
+      setIsLoading(false)
       return
     }
 
     // 약관 동의 확인
     if (!agreeToTerms) {
-      alert("약관에 동의해주세요.")
+      setError("약관에 동의해주세요.")
+      setIsLoading(false)
       return
     }
 
-    // TODO: 회원가입 로직 구현
-    console.log("회원가입 시도:", { name, email, password })
+    const formData = new FormData(e.currentTarget)
+    await signUp(formData)
+    // signUp에서 redirect 처리되므로 여기까지 오지 않음
   }
 
   return (
@@ -44,38 +59,49 @@ export function SignupForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {error && (
+          <div className="mb-4 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">이름</Label>
             <Input
               id="name"
+              name="name"
               type="text"
               placeholder="홍길동"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">이메일</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">비밀번호</Label>
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
               minLength={8}
             />
             <p className="text-xs text-muted-foreground">
@@ -91,6 +117,7 @@ export function SignupForm() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="flex items-start space-x-2">
@@ -99,6 +126,7 @@ export function SignupForm() {
               checked={agreeToTerms}
               onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
               required
+              disabled={isLoading}
             />
             <div className="grid gap-1.5 leading-none">
               <Label
@@ -124,8 +152,8 @@ export function SignupForm() {
               </Label>
             </div>
           </div>
-          <Button type="submit" className="w-full" size="lg" disabled={!agreeToTerms}>
-            회원가입
+          <Button type="submit" className="w-full" size="lg" disabled={!agreeToTerms || isLoading}>
+            {isLoading ? "가입 중..." : "회원가입"}
           </Button>
         </form>
 

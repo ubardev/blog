@@ -1,8 +1,6 @@
-"use client"
-
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { AuthHeader } from "@/components/auth-header"
 import { cn } from "@/lib/utils"
 
 export interface HeaderProps {
@@ -47,11 +45,7 @@ export function Header({ className }: HeaderProps) {
         {/* 로그인 버튼 - 오른쪽 정렬 */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="outline" size="sm">
-              로그인
-            </Button>
-          </Link>
+          <AuthHeader />
         </div>
       </div>
     </header>

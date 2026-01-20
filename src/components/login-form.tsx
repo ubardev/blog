@@ -1,21 +1,40 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { signIn } from "@/app/auth/actions"
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const errorParam = searchParams.get('error')
+    const messageParam = searchParams.get('message')
+    if (errorParam) setError(decodeURIComponent(errorParam))
+    if (messageParam) setMessage(decodeURIComponent(messageParam))
+  }, [searchParams])
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // TODO: 로그인 로직 구현
-    console.log("로그인 시도:", { email, password })
+    setIsLoading(true)
+    setError(null)
+    setMessage(null)
+
+    const formData = new FormData(e.currentTarget)
+    await signIn(formData)
+    // signIn에서 redirect 처리되므로 여기까지 오지 않음
   }
 
   return (
@@ -27,16 +46,28 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {error && (
+          <div className="mb-4 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+            {error}
+          </div>
+        )}
+        {message && (
+          <div className="mb-4 p-3 text-sm text-primary bg-primary/10 border border-primary/20 rounded-md">
+            {message}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">이메일</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -51,15 +82,17 @@ export function LoginForm() {
             </div>
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
-          <Button type="submit" className="w-full" size="lg">
-            로그인
+          <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+            {isLoading ? "로그인 중..." : "로그인"}
           </Button>
         </form>
 
