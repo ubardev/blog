@@ -1,23 +1,16 @@
-"use client"
-
-import { useRouter } from "next/navigation"
 import { PostForm } from "@/components/admin/post-form"
+import { createClient } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
-export default function NewPostPage() {
-  const router = useRouter()
+export default async function NewPostPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  const handleSubmit = (data: any) => {
-    console.log("새 포스트 저장:", data)
-    // 실제 저장 로직은 나중에 구현
-    // 저장 후 목록 페이지로 이동
-    router.push("/admin/posts")
-  }
-
-  const handleCancel = () => {
-    router.push("/admin/posts")
+  if (!user) {
+    redirect('/login')
   }
 
   return (
@@ -38,7 +31,7 @@ export default function NewPostPage() {
       </div>
 
       <div className="max-w-4xl">
-        <PostForm onSubmit={handleSubmit} onCancel={handleCancel} />
+        <PostForm />
       </div>
     </div>
   )

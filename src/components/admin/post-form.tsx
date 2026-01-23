@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useTransition } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,15 +11,19 @@ import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X } from "lucide-react"
-import type { BlogPost } from "@/lib/blog-data"
+import { createPost, updatePost } from "@/app/admin/posts/actions"
+import type { Post } from "@/lib/types/post"
 
 interface PostFormProps {
-  initialData?: BlogPost
-  onSubmit?: (data: Partial<BlogPost>) => void
+  initialData?: Post
   onCancel?: () => void
 }
 
-export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
+export function PostForm({ initialData, onCancel }: PostFormProps) {
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | null>(null)
+
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -28,7 +33,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
     tags: [] as string[],
     publishedDate: new Date().toISOString().split("T")[0],
     readTime: 5,
-    author: "",
+    authorName: "",
     status: "draft" as "published" | "draft",
   })
 
@@ -39,14 +44,14 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
       setFormData({
         title: initialData.title,
         slug: initialData.slug,
-        thumbnail: initialData.thumbnail,
+        thumbnail: initialData.thumbnail || "",
         summary: initialData.summary,
         content: initialData.content,
         tags: initialData.tags,
-        publishedDate: initialData.publishedDate,
-        readTime: initialData.readTime,
-        author: initialData.author || "",
-        status: "published",
+        publishedDate: initialData.published_date,
+        readTime: initialData.read_time,
+        authorName: initialData.author_name || "",
+        status: initialData.status,
       })
     }
   }, [initialData])
@@ -80,16 +85,48 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("폼 데이터:", formData)
-    if (onSubmit) {
-      onSubmit(formData)
+    setError(null)
+
+    const formDataToSubmit = new FormData()
+    formDataToSubmit.append('title', formData.title)
+    formDataToSubmit.append('slug', formData.slug)
+    formDataToSubmit.append('thumbnail', formData.thumbnail)
+    formDataToSubmit.append('summary', formData.summary)
+    formDataToSubmit.append('content', formData.content)
+    formDataToSubmit.append('tags', JSON.stringify(formData.tags))
+    formDataToSubmit.append('publishedDate', formData.publishedDate)
+    formDataToSubmit.append('readTime', formData.readTime.toString())
+    formDataToSubmit.append('authorName', formData.authorName)
+    formDataToSubmit.append('status', formData.status)
+
+    if (initialData) {
+      formDataToSubmit.append('id', initialData.id)
     }
+
+    startTransition(async () => {
+      const result = initialData
+        ? await updatePost(formDataToSubmit)
+        : await createPost(formDataToSubmit)
+
+      if (result.success) {
+        router.push("/admin/posts")
+        router.refresh()
+      } else {
+        setError(result.error || '오류가 발생했습니다.')
+      }
+    })
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+          <p className="text-sm text-destructive">{error}</p>
+        </div>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>기본 정보</CardTitle>
@@ -103,6 +140,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="포스트 제목을 입력하세요"
               required
+              disabled={isPending}
             />
           </div>
 
@@ -116,6 +154,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
               }
               placeholder="url-slug"
               required
+              disabled={isPending}
             />
             <p className="text-xs text-muted-foreground">
               URL에 사용될 고유한 식별자입니다.
@@ -131,6 +170,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
                 setFormData((prev) => ({ ...prev, thumbnail: e.target.value }))
               }
               placeholder="https://example.com/image.jpg"
+              disabled={isPending}
             />
             {formData.thumbnail && (
               <div className="relative w-full h-48 rounded-md overflow-hidden border border-border mt-2">
@@ -156,6 +196,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
               placeholder="포스트 요약을 입력하세요"
               rows={3}
               required
+              disabled={isPending}
             />
           </div>
         </CardContent>
@@ -178,6 +219,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
               rows={20}
               className="font-mono text-sm"
               required
+              disabled={isPending}
             />
           </div>
         </CardContent>
@@ -202,8 +244,9 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
                   }
                 }}
                 placeholder="태그를 입력하고 Enter를 누르세요"
+                disabled={isPending}
               />
-              <Button type="button" onClick={handleAddTag}>
+              <Button type="button" onClick={handleAddTag} disabled={isPending}>
                 추가
               </Button>
             </div>
@@ -242,6 +285,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
                     publishedDate: e.target.value,
                   }))
                 }
+                disabled={isPending}
               />
             </div>
 
@@ -258,19 +302,21 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
                     readTime: parseInt(e.target.value) || 0,
                   }))
                 }
+                disabled={isPending}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="author">작성자</Label>
+            <Label htmlFor="authorName">작성자</Label>
             <Input
-              id="author"
-              value={formData.author}
+              id="authorName"
+              value={formData.authorName}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, author: e.target.value }))
+                setFormData((prev) => ({ ...prev, authorName: e.target.value }))
               }
               placeholder="작성자 이름"
+              disabled={isPending}
             />
           </div>
 
@@ -290,6 +336,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
                   status: checked ? "published" : "draft",
                 }))
               }
+              disabled={isPending}
             />
           </div>
         </CardContent>
@@ -297,12 +344,26 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
 
       <div className="flex items-center justify-end gap-2">
         {onCancel && (
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={onCancel}
+            disabled={isPending}
+          >
             취소
           </Button>
         )}
-        <Button type="submit" variant="outline">
-          {formData.status === "published" ? "발행하기" : "임시저장"}
+        <Button 
+          type="submit" 
+          variant="outline"
+          disabled={isPending}
+        >
+          {isPending 
+            ? "저장 중..." 
+            : formData.status === "published" 
+              ? "발행하기" 
+              : "임시저장"
+          }
         </Button>
         {formData.status === "draft" && (
           <Button
@@ -310,6 +371,7 @@ export function PostForm({ initialData, onSubmit, onCancel }: PostFormProps) {
             onClick={() => {
               setFormData((prev) => ({ ...prev, status: "published" }))
             }}
+            disabled={isPending}
           >
             발행하기
           </Button>

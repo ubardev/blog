@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -16,14 +16,19 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { PostStatusBadge } from "./post-status-badge"
 import { Edit, Trash2 } from "lucide-react"
-import type { BlogPost } from "@/lib/blog-data"
+import { deletePost } from "@/app/admin/posts/actions"
+import { useRouter } from "next/navigation"
+import type { Post } from "@/lib/types/post"
 
 interface PostTableProps {
-  posts: BlogPost[]
+  posts: Post[]
 }
 
 export function PostTable({ posts }: PostTableProps) {
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [error, setError] = useState<string | null>(null)
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -33,7 +38,7 @@ export function PostTable({ posts }: PostTableProps) {
     }
   }
 
-  const handleSelectOne = (id: number, checked: boolean) => {
+  const handleSelectOne = (id: string, checked: boolean) => {
     if (checked) {
       setSelectedIds([...selectedIds, id])
     } else {
@@ -41,17 +46,41 @@ export function PostTable({ posts }: PostTableProps) {
     }
   }
 
-  // handleEdit는 Link로 처리하므로 제거
+  const handleDelete = async (id: string) => {
+    if (!confirm('정말 이 포스트를 삭제하시겠습니까?')) {
+      return
+    }
 
-  const handleDelete = (id: number) => {
-    console.log("삭제할 포스트 ID:", id)
-    // 실제 삭제 로직은 나중에 구현
+    setError(null)
+    startTransition(async () => {
+      const result = await deletePost(id)
+      if (result.success) {
+        router.refresh()
+      } else {
+        setError(result.error || '삭제에 실패했습니다.')
+      }
+    })
   }
 
-  const handleDeleteSelected = () => {
-    console.log("선택된 포스트 삭제:", selectedIds)
-    // 실제 삭제 로직은 나중에 구현
-    setSelectedIds([])
+  const handleDeleteSelected = async () => {
+    if (!confirm(`정말 선택한 ${selectedIds.length}개의 포스트를 삭제하시겠습니까?`)) {
+      return
+    }
+
+    setError(null)
+    startTransition(async () => {
+      const results = await Promise.all(
+        selectedIds.map((id) => deletePost(id))
+      )
+      
+      const failed = results.filter((r) => !r.success)
+      if (failed.length > 0) {
+        setError(`${failed.length}개의 포스트 삭제에 실패했습니다.`)
+      } else {
+        setSelectedIds([])
+        router.refresh()
+      }
+    })
   }
 
   const isAllSelected = selectedIds.length === posts.length && posts.length > 0
@@ -59,6 +88,11 @@ export function PostTable({ posts }: PostTableProps) {
 
   return (
     <div className="space-y-4">
+      {error && (
+        <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+          <p className="text-sm text-destructive">{error}</p>
+        </div>
+      )}
       {selectedIds.length > 0 && (
         <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
           <span className="text-sm text-foreground">
@@ -68,8 +102,9 @@ export function PostTable({ posts }: PostTableProps) {
             variant="destructive"
             size="sm"
             onClick={handleDeleteSelected}
+            disabled={isPending}
           >
-            선택된 항목 삭제
+            {isPending ? "삭제 중..." : "선택된 항목 삭제"}
           </Button>
         </div>
       )}
@@ -113,15 +148,21 @@ export function PostTable({ posts }: PostTableProps) {
                     />
                   </TableCell>
                   <TableCell>
-                    <div className="relative size-16 rounded-md overflow-hidden">
-                      <Image
-                        src={post.thumbnail}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                        sizes="64px"
-                      />
-                    </div>
+                    {post.thumbnail ? (
+                      <div className="relative size-16 rounded-md overflow-hidden">
+                        <Image
+                          src={post.thumbnail}
+                          alt={post.title}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="size-16 rounded-md bg-muted flex items-center justify-center text-xs text-muted-foreground">
+                        이미지 없음
+                      </div>
+                    )}
                   </TableCell>
                   <TableCell>
                     <div className="max-w-md">
@@ -151,10 +192,10 @@ export function PostTable({ posts }: PostTableProps) {
                     </div>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {post.publishedDate}
+                    {post.published_date}
                   </TableCell>
                   <TableCell>
-                    <PostStatusBadge status="published" />
+                    <PostStatusBadge status={post.status} />
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -163,6 +204,7 @@ export function PostTable({ posts }: PostTableProps) {
                           variant="outline"
                           size="sm"
                           className="gap-1"
+                          disabled={isPending}
                         >
                           <Edit className="size-3.5" />
                           수정
@@ -173,6 +215,7 @@ export function PostTable({ posts }: PostTableProps) {
                         size="sm"
                         onClick={() => handleDelete(post.id)}
                         className="gap-1 text-destructive hover:text-destructive"
+                        disabled={isPending}
                       >
                         <Trash2 className="size-3.5" />
                         삭제
