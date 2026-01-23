@@ -10,21 +10,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { getAllPosts } from "@/lib/blog-data"
+import { getAllPosts } from "@/app/blog/actions"
 
-// 블로그 데이터 가져오기
-const blogPosts = getAllPosts().map((post) => ({
-  id: post.id,
-  thumbnail: post.thumbnail,
-  title: post.title,
-  summary: post.summary,
-  tags: post.tags,
-  publishedDate: post.publishedDate,
-  readTime: post.readTime,
-  href: `/blog/${post.slug}`,
-}))
-
-export default function Home() {
+export default async function Home() {
+  // Server Action으로 실제 데이터 가져오기
+  const blogPosts = (await getAllPosts()).map((post) => ({
+    id: post.id,
+    thumbnail: post.thumbnail,
+    title: post.title,
+    summary: post.summary,
+    tags: post.tags,
+    publishedDate: post.publishedDate,
+    readTime: post.readTime,
+    href: `/blog/${post.slug}`,
+  }))
   return (
     <div className="min-h-screen flex flex-col">
       {/* 1. 헤더 / 네비게이션 */}

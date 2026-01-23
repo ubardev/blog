@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer"
 import { PostHeader } from "@/components/post-header"
 import { PostContent } from "@/components/post-content"
 import { PostNavigation } from "@/components/post-navigation"
-import { getPostBySlug, getAdjacentPosts } from "@/lib/blog-data"
+import { getAllPosts, getPostBySlug, getAdjacentPosts } from "@/app/blog/actions"
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -14,8 +14,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const { getAllPosts } = await import("@/lib/blog-data")
-  const posts = getAllPosts()
+  const posts = await getAllPosts()
   
   return posts.map((post) => ({
     slug: post.slug,
@@ -26,7 +25,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = getPostBySlug(slug)
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     return {
@@ -57,13 +56,13 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  const post = getPostBySlug(slug)
+  const post = await getPostBySlug(slug)
   
   if (!post) {
     notFound()
   }
 
-  const { previous, next } = getAdjacentPosts(slug)
+  const { previous, next } = await getAdjacentPosts(slug)
 
   return (
     <div className="min-h-screen flex flex-col">
