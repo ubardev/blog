@@ -14,13 +14,6 @@ interface EditPostClientProps {
 export function EditPostClient({ post }: EditPostClientProps) {
   const router = useRouter()
 
-  const handleSubmit = (data: any) => {
-    console.log("포스트 수정:", data)
-    // 실제 수정 로직은 나중에 구현
-    // 저장 후 목록 페이지로 이동
-    router.push("/admin/posts")
-  }
-
   const handleCancel = () => {
     router.push("/admin/posts")
   }
@@ -45,7 +38,6 @@ export function EditPostClient({ post }: EditPostClientProps) {
       <div className="max-w-4xl">
         <PostForm
           initialData={post}
-          onSubmit={handleSubmit}
           onCancel={handleCancel}
         />
       </div>

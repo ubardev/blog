@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -7,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { XCircle } from "lucide-react"
 
-export default function PaymentFailPage() {
+function PaymentFailContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -64,5 +65,25 @@ export default function PaymentFailPage() {
       </main>
       <Footer />
     </div>
+  )
+}
+
+export default function PaymentFailPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <CardTitle>로딩 중...</CardTitle>
+            </CardHeader>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    }>
+      <PaymentFailContent />
+    </Suspense>
   )
 }

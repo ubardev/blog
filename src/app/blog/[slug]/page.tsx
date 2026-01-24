@@ -9,18 +9,13 @@ import { getAllPosts, getPostBySlug, getAdjacentPosts } from "@/app/blog/actions
 import { checkPaymentStatus } from "@/app/payment/actions"
 import { PaymentGate } from "@/components/payment-gate"
 
+// 빌드 시 정적 생성 방지 (cookies() 호출 에러 방지)
+export const dynamic = 'force-dynamic'
+
 interface BlogPostPageProps {
   params: Promise<{
     slug: string
   }>
-}
-
-export async function generateStaticParams() {
-  const posts = await getAllPosts()
-  
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
 }
 
 export async function generateMetadata({

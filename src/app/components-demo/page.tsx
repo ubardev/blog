@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { BlogCard } from "@/components/blog-card"
 import { EmailCta } from "@/components/email-cta"
 import { Header } from "@/components/header"
@@ -21,6 +22,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Code2, Smartphone, Tablet, Monitor } from "lucide-react"
+
+// useSearchParams를 사용하는 컴포넌트를 위한 래퍼
+function LoginFormWrapper() {
+  return (
+    <Suspense fallback={<div className="p-6 text-center text-muted-foreground">로딩 중...</div>}>
+      <LoginForm />
+    </Suspense>
+  )
+}
+
+function SignupFormWrapper() {
+  return (
+    <Suspense fallback={<div className="p-6 text-center text-muted-foreground">로딩 중...</div>}>
+      <SignupForm />
+    </Suspense>
+  )
+}
 
 export default function ComponentsDemoPage() {
   const samplePosts = [
@@ -1345,7 +1363,7 @@ export default function Layout({ children }) {
               </h2>
               <div className="flex justify-center">
                 <div className="w-full max-w-md">
-                  <LoginForm />
+                  <LoginFormWrapper />
                 </div>
               </div>
             </section>
@@ -1362,7 +1380,7 @@ export default function Layout({ children }) {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">모바일 화면</span>
                   </div>
                   <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
-                    <LoginForm />
+                    <LoginFormWrapper />
                   </div>
                 </div>
 
@@ -1372,7 +1390,7 @@ export default function Layout({ children }) {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">태블릿 화면</span>
                   </div>
                   <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
-                    <LoginForm />
+                    <LoginFormWrapper />
                   </div>
                 </div>
 
@@ -1382,7 +1400,7 @@ export default function Layout({ children }) {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">데스크톱 화면</span>
                   </div>
                   <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
-                    <LoginForm />
+                    <LoginFormWrapper />
                   </div>
                 </div>
               </div>
@@ -1476,7 +1494,7 @@ export default function LoginPage() {
               </h2>
               <div className="flex justify-center">
                 <div className="w-full max-w-md">
-                  <SignupForm />
+                  <SignupFormWrapper />
                 </div>
               </div>
             </section>
@@ -1493,7 +1511,7 @@ export default function LoginPage() {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">모바일 화면</span>
                   </div>
                   <div className="w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-border">
-                    <SignupForm />
+                    <SignupFormWrapper />
                   </div>
                 </div>
 
@@ -1503,7 +1521,7 @@ export default function LoginPage() {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">태블릿 화면</span>
                   </div>
                   <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
-                    <SignupForm />
+                    <SignupFormWrapper />
                   </div>
                 </div>
 
@@ -1513,7 +1531,7 @@ export default function LoginPage() {
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">데스크톱 화면</span>
                   </div>
                   <div className="w-full max-w-md mx-auto rounded-lg overflow-hidden border border-border">
-                    <SignupForm />
+                    <SignupFormWrapper />
                   </div>
                 </div>
               </div>
