@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/carousel"
 import { getAllPosts } from "@/app/blog/actions"
 
+// 빌드 시 정적 생성 방지 (cookies() 호출 에러 방지)
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   // Server Action으로 실제 데이터 가져오기
   const blogPosts = (await getAllPosts()).map((post) => ({
