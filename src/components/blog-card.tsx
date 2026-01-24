@@ -46,18 +46,24 @@ export function BlogCard({
     <Card className={cn("overflow-hidden flex h-full pt-0", blogCardVariants({ size }), className)}>
       {/* 썸네일 이미지 */}
       <div className={cn(
-        "relative w-full overflow-hidden",
+        "relative w-full overflow-hidden bg-muted",
         size === "sm" && "h-32",
         size === "md" && "h-48",
         size === "lg" && "h-64"
       )}>
-        <Image
-          src={thumbnail}
-          alt={title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {thumbnail && thumbnail.trim() !== "" ? (
+          <Image
+            src={thumbnail}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-muted-foreground">
+            <span className="text-sm">이미지 없음</span>
+          </div>
+        )}
       </div>
 
       <CardHeader>

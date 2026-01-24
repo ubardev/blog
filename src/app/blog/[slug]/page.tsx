@@ -6,6 +6,8 @@ import { PostHeader } from "@/components/post-header"
 import { PostContent } from "@/components/post-content"
 import { PostNavigation } from "@/components/post-navigation"
 import { getAllPosts, getPostBySlug, getAdjacentPosts } from "@/app/blog/actions"
+import { checkPaymentStatus } from "@/app/payment/actions"
+import { PaymentGate } from "@/components/payment-gate"
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -63,6 +65,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const { previous, next } = await getAdjacentPosts(slug)
+  
+  // 결제 여부 확인
+  const hasPaid = await checkPaymentStatus(post.id)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -81,7 +86,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
 
             <div className="mt-8 md:mt-12">
-              <PostContent content={post.content} />
+              {hasPaid ? (
+                <PostContent content={post.content} />
+              ) : (
+                <PaymentGate postId={post.id} postTitle={post.title} />
+              )}
             </div>
 
             <PostNavigation

@@ -2,14 +2,21 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { PaymentWidget } from "@/components/payment-widget"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { PaymentPageClient } from "./payment-client"
 
-export default function PaymentPage() {
-  // 실제로는 URL 파라미터나 서버에서 주문 정보를 가져와야 합니다
-  const orderName = "토스 티셔츠 외 2건"
-  const amount = 50000
-  const customerEmail = "customer@example.com"
-  const customerName = "홍길동"
-  const customerMobilePhone = "01012345678"
+interface PaymentPageProps {
+  searchParams: Promise<{
+    post_id?: string
+  }>
+}
+
+export default async function PaymentPage({ searchParams }: PaymentPageProps) {
+  const params = await searchParams
+  const postId = params.post_id
+
+  // 블로그 글 결제는 1만원 고정
+  const amount = 10000
+  const orderName = postId ? "블로그 글 구매" : "결제"
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -24,12 +31,10 @@ export default function PaymentPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <PaymentWidget
+              <PaymentPageClient
                 amount={amount}
                 orderName={orderName}
-                customerEmail={customerEmail}
-                customerName={customerName}
-                customerMobilePhone={customerMobilePhone}
+                postId={postId}
               />
             </CardContent>
           </Card>

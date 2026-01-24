@@ -14,6 +14,7 @@ interface PaymentWidgetProps {
   customerEmail?: string
   customerName?: string
   customerMobilePhone?: string
+  postId?: string
   onPaymentSuccess?: (paymentKey: string, orderId: string, amount: number) => void
   onPaymentError?: (error: { code: string; message: string }) => void
 }
@@ -23,7 +24,8 @@ export function PaymentWidget({
   orderName,
   customerEmail,
   customerName,
-  customerMobilePhone,
+  customerMobilePhone: initialCustomerMobilePhone,
+  postId,
   onPaymentSuccess,
   onPaymentError,
 }: PaymentWidgetProps) {
@@ -33,8 +35,16 @@ export function PaymentWidget({
   const [agreementWidget, setAgreementWidget] = useState<any>(null)
   const [isAgreed, setIsAgreed] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [customerMobilePhone, setCustomerMobilePhone] = useState<string>(
+    initialCustomerMobilePhone || ""
+  )
   const paymentMethodWidgetRef = useRef<any>(null)
   const agreementWidgetRef = useRef<any>(null)
+
+  // 전화번호 정규화 함수: 숫자만 추출
+  const normalizePhoneNumber = (phone: string): string => {
+    return phone.replace(/[^0-9]/g, "")
+  }
 
   // 클라이언트 키는 환경 변수에서 가져옵니다
   const clientKey = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY || ""
@@ -152,18 +162,30 @@ export function PaymentWidget({
       return
     }
 
+    // 전화번호 검증 및 정규화
+    const normalizedPhone = normalizePhoneNumber(customerMobilePhone)
+    
+    if (!normalizedPhone || normalizedPhone.length < 8 || normalizedPhone.length > 15) {
+      alert("전화번호를 올바르게 입력해주세요. (8-15자리 숫자)")
+      return
+    }
+
     setIsLoading(true)
 
     try {
       const orderId = generateOrderId()
+
+      const successUrl = postId
+        ? `${window.location.origin}/payment/success?post_id=${postId}`
+        : `${window.location.origin}/payment/success`
 
       await widgets.requestPayment({
         orderId,
         orderName,
         customerEmail,
         customerName,
-        customerMobilePhone,
-        successUrl: `${window.location.origin}/payment/success`,
+        customerMobilePhone: normalizedPhone,
+        successUrl,
         failUrl: `${window.location.origin}/payment/fail`,
       })
 
@@ -228,6 +250,55 @@ export function PaymentWidget({
         </CardContent>
       </Card>
 
+      {/* 구매자 정보 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>구매자 정보</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="customer-email">이메일</Label>
+            <Input
+              id="customer-email"
+              type="email"
+              value={customerEmail || ""}
+              disabled
+              className="bg-muted"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="customer-name">이름</Label>
+            <Input
+              id="customer-name"
+              type="text"
+              value={customerName || ""}
+              disabled
+              className="bg-muted"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="customer-phone">
+              전화번호 <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="customer-phone"
+              type="tel"
+              placeholder="01012345678 (하이픈 없이 숫자만 입력)"
+              value={customerMobilePhone}
+              onChange={(e) => {
+                // 숫자와 하이픈만 허용
+                const value = e.target.value.replace(/[^0-9-]/g, "")
+                setCustomerMobilePhone(value)
+              }}
+              maxLength={15}
+            />
+            <p className="text-xs text-muted-foreground">
+              결제 완료 시 안내를 위해 필요합니다. 하이픈(-) 없이 숫자만 입력해주세요.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* 약관 동의 */}
       <Card>
         <CardHeader>
@@ -241,7 +312,7 @@ export function PaymentWidget({
       {/* 결제 버튼 */}
       <Button
         onClick={handlePayment}
-        disabled={!isAgreed || isLoading || !isInitialized}
+        disabled={!isAgreed || isLoading || !isInitialized || !customerMobilePhone}
         className="w-full"
         size="lg"
       >
