@@ -11,6 +11,7 @@ import { PostContent } from "@/components/post-content"
 import { PostNavigation } from "@/components/post-navigation"
 import { LoginForm } from "@/components/login-form"
 import { SignupForm } from "@/components/signup-form"
+import { PaymentWidget } from "@/components/payment-widget"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Carousel,
@@ -2193,6 +2194,167 @@ Next.js 16은 성능과 개발자 경험을 크게 향상시켰습니다.`}
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Payment Widget */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <Code2 className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground">PaymentWidget</h2>
+              <p className="text-sm text-muted-foreground">
+                Toss Payments 결제위젯 컴포넌트
+              </p>
+            </div>
+          </div>
+
+          <Tabs defaultValue="payment-widget-demo" className="w-full">
+            <TabsList>
+              <TabsTrigger value="payment-widget-demo">데모</TabsTrigger>
+              <TabsTrigger value="payment-widget-usage">
+                사용법
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="payment-widget-demo" className="mt-6">
+              <div className="space-y-6">
+                <div className="max-w-2xl mx-auto border border-border rounded-lg p-6 bg-card">
+                  <PaymentWidget
+                    amount={50000}
+                    orderName="토스 티셔츠 외 2건"
+                    customerEmail="customer@example.com"
+                    customerName="홍길동"
+                    customerMobilePhone="01012345678"
+                  />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="payment-widget-usage" className="mt-6">
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    Props
+                  </h2>
+                  <div className="bg-muted rounded-lg p-6 space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">필수 Props</h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">amount: number</code> - 결제 금액 (원 단위)
+                        </li>
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">orderName: string</code> - 주문 상품명
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">선택 Props</h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">customerEmail?: string</code> - 구매자 이메일
+                        </li>
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">customerName?: string</code> - 구매자 이름
+                        </li>
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">customerMobilePhone?: string</code> - 구매자 휴대폰 번호
+                        </li>
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">onPaymentSuccess?: (paymentKey, orderId, amount) =&gt; void</code> - 결제 성공 콜백
+                        </li>
+                        <li>
+                          <code className="bg-background px-2 py-1 rounded">onPaymentError?: (error) =&gt; void</code> - 결제 실패 콜백
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">환경 변수</h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        다음 환경 변수를 설정해야 합니다:
+                      </p>
+                      <ul className="space-y-1 text-sm text-muted-foreground">
+                        <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY</code> - 클라이언트 키 (필수)</li>
+                        <li>• <code className="bg-background px-1 py-0.5 rounded text-xs">TOSS_PAYMENTS_SECRET_KEY</code> - 시크릿 키 (서버에서 사용, 필수)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    사용 예시
+                  </h2>
+                  <div className="bg-muted rounded-lg p-6">
+                    <pre className="text-sm text-foreground overflow-x-auto">
+                      <code>{`import { PaymentWidget } from "@/components/payment-widget"
+
+// 기본 사용법
+<PaymentWidget
+  amount={50000}
+  orderName="토스 티셔츠 외 2건"
+  customerEmail="customer@example.com"
+  customerName="홍길동"
+  customerMobilePhone="01012345678"
+/>
+
+// 콜백 함수 사용
+<PaymentWidget
+  amount={50000}
+  orderName="토스 티셔츠 외 2건"
+  onPaymentSuccess={(paymentKey, orderId, amount) => {
+    console.log("결제 성공:", { paymentKey, orderId, amount })
+  }}
+  onPaymentError={(error) => {
+    console.error("결제 실패:", error)
+  }}
+/>`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    설정 가이드
+                  </h2>
+                  <div className="bg-muted rounded-lg p-6 space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">1. API 키 발급</h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        <a href="https://developers.tosspayments.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                          토스페이먼츠 개발자센터
+                        </a>에서 API 키를 발급받으세요.
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">2. 환경 변수 설정</h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        프로젝트 루트에 <code className="bg-background px-1 py-0.5 rounded text-xs">.env.local</code> 파일을 생성하고 다음을 추가하세요:
+                      </p>
+                      <pre className="text-xs bg-background p-3 rounded overflow-x-auto">
+                        <code>{`NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY=test_ck_xxxxxxxxxxxxx
+TOSS_PAYMENTS_SECRET_KEY=test_sk_xxxxxxxxxxxxx`}</code>
+                      </pre>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">3. SDK 설치</h3>
+                      <pre className="text-xs bg-background p-3 rounded overflow-x-auto">
+                        <code>{`npm install @tosspayments/tosspayments-sdk --save`}</code>
+                      </pre>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">자세한 가이드</h3>
+                      <p className="text-sm text-muted-foreground">
+                        더 자세한 설정 방법은 <code className="bg-background px-1 py-0.5 rounded text-xs">TOSS_PAYMENTS_SETUP.md</code> 파일을 참고하세요.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   )
