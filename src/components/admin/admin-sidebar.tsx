@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, FileText, Settings } from "lucide-react"
+import { LayoutDashboard, FileText, Settings, CreditCard } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const menuItems = [
@@ -15,6 +15,11 @@ const menuItems = [
     title: "포스트 관리",
     href: "/admin/posts",
     icon: FileText,
+  },
+  {
+    title: "결제 내역",
+    href: "/admin/payments",
+    icon: CreditCard,
   },
   {
     title: "설정",
