@@ -282,6 +282,56 @@ export async function getPosts() {
 }
 
 /**
+ * ID로 포스트 가져오기
+ */
+export async function getPostById(postId: string) {
+  try {
+    const { user, userData } = await checkAuth()
+
+    const supabase = await createClient()
+
+    // 포스트 조회
+    const { data: post, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('id', postId)
+      .single()
+
+    if (error || !post) {
+      return {
+        success: false,
+        error: '포스트를 찾을 수 없습니다.',
+        data: null,
+      }
+    }
+
+    // 권한 확인: 작성자이거나 admin인지 확인
+    const isAuthor = post.author_id === user.id
+    const isAdmin = userData.role === 'admin'
+
+    if (!isAuthor && !isAdmin) {
+      return {
+        success: false,
+        error: '조회 권한이 없습니다.',
+        data: null,
+      }
+    }
+
+    return {
+      success: true,
+      data: post,
+    }
+  } catch (error) {
+    console.error('포스트 조회 중 오류:', error)
+    return {
+      success: false,
+      error: '예상치 못한 오류가 발생했습니다.',
+      data: null,
+    }
+  }
+}
+
+/**
  * 포스트 삭제
  */
 export async function deletePost(postId: string) {

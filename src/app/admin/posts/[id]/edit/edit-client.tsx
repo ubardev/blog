@@ -5,10 +5,10 @@ import { PostForm } from "@/components/admin/post-form"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import type { BlogPost } from "@/lib/blog-data"
+import type { Post } from "@/lib/types/post"
 
 interface EditPostClientProps {
-  post: BlogPost
+  post: Post
 }
 
 export function EditPostClient({ post }: EditPostClientProps) {
