@@ -1,10 +1,6 @@
-import { PostForm } from "@/components/admin/post-form"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { getAllPosts } from "@/lib/blog-data"
 import { notFound } from "next/navigation"
 import { EditPostClient } from "./edit-client"
+import { getPostById } from "../../actions"
 
 interface EditPostPageProps {
   params: Promise<{
@@ -14,12 +10,11 @@ interface EditPostPageProps {
 
 export default async function EditPostPage({ params }: EditPostPageProps) {
   const { id } = await params
-  const allPosts = getAllPosts()
-  const post = allPosts.find((p) => p.id === parseInt(id) || p.slug === id)
+  const result = await getPostById(id)
 
-  if (!post) {
+  if (!result.success || !result.data) {
     notFound()
   }
 
-  return <EditPostClient post={post} />
+  return <EditPostClient post={result.data} />
 }
